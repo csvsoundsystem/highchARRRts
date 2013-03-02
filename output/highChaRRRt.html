@@ -42,7 +42,12 @@
                 (function(){
 
                     var chart;
-                    var type = 'line';
+                    var CHART_OPTIONS = {
+                        c_type: 'line',
+                        title: 'Chart Title',
+                        x_label: '',
+                        y_label: ''
+                    }
 
                     var ds = new Miso.Dataset({
                         url : 'csv/data_wide.csv',
@@ -51,20 +56,20 @@
 
                     ds.fetch({ 
                         success : function() {
-                            calcChartData(ds);
+                            calcChartData();
                         },
                         error: function(){
                             alert('Oh no! There was an error.')
                         }
                     });
 
-                    function calcChartData(ds){
-                        var series_data = constructDataSeries(ds);
-                        var column_names = constructColumnNames(ds)
-                        buildGraph(ds, series_data, column_names, type);
+                    function calcChartData(){
+                        var series_data = constructDataSeries();
+                        var column_names = constructColumnNames()
+                        buildGraph(series_data, column_names);
 
                     }
-                    function constructDataSeries(ds){
+                    function constructDataSeries(){
                         var series = [];
                         var rows = ds.toJSON();
                         var first_col_name = ds.columnNames()[0];
@@ -90,7 +95,7 @@
 
                     }
 
-                    function constructColumnNames(ds){
+                    function constructColumnNames(){
                         var col_names = [];
 
                         // For each column, start at 1 to skip the first column which holds the name
@@ -101,26 +106,41 @@
 
                     }
 
-                    function buildGraph(ds, series_data, column_names, type){
+                    function buildGraph(series_data, column_names){
                         chart = new Highcharts.Chart({
                             chart: {
                                 renderTo: 'chart-container',
-                                type: type
+                                type: CHART_OPTIONS.c_type
                             },
                             title: {
-                                text: 'Monthly Average Rainfall'
+                                text: CHART_OPTIONS.title,
+                                style: {
+                                    color: '#303030',
+                                    font: 'normal 15px "Arial", sans-serif'
+                                }
                             },
                             subtitle: {
-                                text: 'Source: WorldClimate.com'
+                                text: ''
                             },
                             xAxis: {
-                                categories: column_names
+                                categories: column_names,
+                                title: {
+                                    text: CHART_OPTIONS.x_label,
+                                    style: {
+                                        color: '#303030',
+                                        font: 'normal 13px "Arial", sans-serif'
+                                    }
+                                }
                             },
                             yAxis: {
                                 min: 0,
                                 title: {
-                                    text: 'Rainfall (mm)'
-                                }
+                                    text: CHART_OPTIONS.y_label,
+                                    style: {
+                                        color: '#303030',
+                                        font: 'normal 13px "Arial", sans-serif'
+                                    }
+                                },
                             },
                             legend: {
                                 layout: 'vertical',
@@ -135,23 +155,27 @@
                             tooltip: {
                                 formatter: function() {
                                     return ''+
-                                        this.x +': '+ this.y +' mm';
-                                }
+                                        this.x +': '+ this.y;
+                                },
+                                borderRadius: 1,
+                                borderWidth: 1,
+                                shadow: false
                             },
                             plotOptions: {
+                                
                                 column: {
                                     pointPadding: 0.2,
                                     borderWidth: 0
                                 }
                             },
-                                series: series_data
+                            series: series_data
                         });
                     }
                 
                     $('#chart-selector').change(function(){
                         var chart_type = $(this).val();
-                        type = chart_type;
-                        calcChartData(ds);
+                        CHART_OPTIONS.c_type = chart_type;
+                        calcChartData();
                     });
 
                 }).call(this);
