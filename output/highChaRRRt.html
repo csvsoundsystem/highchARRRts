@@ -43,10 +43,10 @@
 
                     var chart;
                     var CHART_OPTIONS = {
-                        c_type: 'line',
-                        title: 'Chart Title',
-                        x_label: '',
-                        y_label: ''
+                        c_type: 'this_is_the_type_of_chart',
+                        title: 'this_is_the_title_of_the_chart',
+                        x_label: 'this_is_the_x_label_of_the_chart',
+                        y_label: 'this_is_the_y_label_of_the_chart'
                     }
 
                     var ds = new Miso.Dataset({
@@ -54,7 +54,7 @@
                         delimiter: ','
                     });
 
-                    ds.fetch({ 
+                    ds.fetch({
                         success : function() {
                             calcChartData();
                         },
@@ -87,7 +87,7 @@
                             var obj = {
                                 name: row[ds.columnNames()[0]],
                                 data: row_values
-                    
+
                             }
                             series.push(obj);
                         });
@@ -171,7 +171,7 @@
                             series: series_data
                         });
                     }
-                
+
                     $('#chart-selector').change(function(){
                         var chart_type = $(this).val();
                         CHART_OPTIONS.c_type = chart_type;
