@@ -21,80 +21,106 @@
 
     	<script type="text/javascript">
                 (function(){
+
                     var chart;
-                    chart = new Highcharts.Chart({
-                        chart: {
-                            renderTo: 'chart-container',
-                            type: 'column'
-                        },
-                        title: {
-                            text: 'Monthly Average Rainfall'
-                        },
-                        subtitle: {
-                            text: 'Source: WorldClimate.com'
-                        },
-                        xAxis: {
-                            categories: [
-                                'Jan',
-                                'Feb',
-                                'Mar',
-                                'Apr',
-                                'May',
-                                'Jun',
-                                'Jul',
-                                'Aug',
-                                'Sep',
-                                'Oct',
-                                'Nov',
-                                'Dec'
-                            ]
-                        },
-                        yAxis: {
-                            min: 0,
-                            title: {
-                                text: 'Rainfall (mm)'
-                            }
-                        },
-                        legend: {
-                            layout: 'vertical',
-                            backgroundColor: '#FFFFFF',
-                            align: 'left',
-                            verticalAlign: 'top',
-                            x: 100,
-                            y: 70,
-                            floating: true,
-                            shadow: true
-                        },
-                        tooltip: {
-                            formatter: function() {
-                                return ''+
-                                    this.x +': '+ this.y +' mm';
-                            }
-                        },
-                        plotOptions: {
-                            column: {
-                                pointPadding: 0.2,
-                                borderWidth: 0
-                            }
-                        },
-                            series: [{
-                            name: 'Tokyo',
-                            data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-                
-                        }, {
-                            name: 'New York',
-                            data: [83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5, 106.6, 92.3]
-                
-                        }, {
-                            name: 'London',
-                            data: [48.9, 38.8, 39.3, 41.4, 47.0, 48.3, 59.0, 59.6, 52.4, 65.2, 59.3, 51.2]
-                
-                        }, {
-                            name: 'Berlin',
-                            data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6, 39.1, 46.8, 51.1]
-                
-                        }]
+                    var ds = new Miso.Dataset({
+                        url : 'csv/data_wide.csv',
+                        delimiter: ','
                     });
+
+                    ds.fetch({ 
+                        success : function() {
+                            var series_data = constructDataSeries(ds);
+                            var column_names = constructColumnNames(ds)
+                            buildGraph(ds, series_data, column_names);
+                        },
+                        error: function(){
+                            alert('Oh no! There was an error.')
+                        }
+                    });
+
+                    function constructDataSeries(ds){
+                        var series = [];
+                        var rows = ds.toJSON();
+                        var first_col_name = ds.columnNames()[0];
+
+                        // For each row
+                        _.each(rows, function(row){
+                            var row_values = []
+
+                            // For each column, start at 1 to skip the first column which holds the name
+                            for (var i = 1; i < ds.columnNames().length; i++){
+                                row_values.push(row[ds.columnNames()[i]])
+                            }
+
+                            // Create a highchart series data object
+                            var obj = {
+                                name: row[ds.columnNames()[0]],
+                                data: row_values
+                    
+                            }
+                            series.push(obj);
+                        });
+                        return series;
+
+                    }
+
+                    function constructColumnNames(ds){
+                        var col_names = [];
+                        // For each column, start at 1 to skip the first column which holds the name
+                        for (var i = 1; i < ds.columnNames().length; i++){
+                            col_names.push(ds.columnNames()[i])
+                        }
+                        return col_names;
+
+                    }
+
+                    function buildGraph(ds, series_data, column_names){
+                        chart = new Highcharts.Chart({
+                            chart: {
+                                renderTo: 'chart-container',
+                                type: 'column'
+                            },
+                            title: {
+                                text: 'Monthly Average Rainfall'
+                            },
+                            subtitle: {
+                                text: 'Source: WorldClimate.com'
+                            },
+                            xAxis: {
+                                categories: column_names
+                            },
+                            yAxis: {
+                                min: 0,
+                                title: {
+                                    text: 'Rainfall (mm)'
+                                }
+                            },
+                            legend: {
+                                layout: 'vertical',
+                                backgroundColor: '#FFFFFF',
+                                align: 'left',
+                                verticalAlign: 'top',
+                                x: 100,
+                                y: 70,
+                                floating: true,
+                                shadow: true
+                            },
+                            tooltip: {
+                                formatter: function() {
+                                    return ''+
+                                        this.x +': '+ this.y +' mm';
+                                }
+                            },
+                            plotOptions: {
+                                column: {
+                                    pointPadding: 0.2,
+                                    borderWidth: 0
+                                }
+                            },
+                                series: series_data
+                        });
+                    }
                 
                 }).call(this);
     	</script>
