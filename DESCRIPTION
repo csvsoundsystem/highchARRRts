@@ -1,0 +1,12 @@
+Package: highChaRRRts
+Maintainer: Brian Abelson <brianabelson@gmail.com>
+Author: Brian Abelson <brianabelson@gmail.com>
+Version: 1.0
+License: MIT
+LazyData: yes
+LazyLoad: yes
+ZipData: yes
+Title: highChaRRRts
+Description: highChaRRRts
+Depends:
+    R (>= 2.15.2)
