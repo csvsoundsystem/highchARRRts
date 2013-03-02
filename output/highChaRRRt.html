@@ -46,7 +46,8 @@
                         c_type: 'this_is_the_type_of_chart',
                         title: 'this_is_the_title_of_the_chart',
                         x_label: 'this_is_the_x_label_of_the_chart',
-                        y_label: 'this_is_the_y_label_of_the_chart'
+                        y_label: 'this_is_the_y_label_of_the_chart',
+                        color_array : 'these_are_the_colors_of_the_rainbow'
                     }
 
                     var ds = new Miso.Dataset({
@@ -75,7 +76,7 @@
                         var first_col_name = ds.columnNames()[0];
 
                         // For each row
-                        _.each(rows, function(row){
+                        _.each(rows, function(row, index){
                             var row_values = []
 
                             // For each column, start at 1 to skip the first column which holds the name
@@ -86,6 +87,7 @@
                             // Create a highchart series data object
                             var obj = {
                                 name: row[ds.columnNames()[0]],
+                                color: CHART_OPTIONS.color_array[index]
                                 data: row_values
 
                             }
