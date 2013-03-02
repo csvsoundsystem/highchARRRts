@@ -23,6 +23,8 @@
                 (function(){
 
                     var chart;
+                    var type = 'line';
+
                     var ds = new Miso.Dataset({
                         url : 'csv/data_wide.csv',
                         delimiter: ','
@@ -32,7 +34,7 @@
                         success : function() {
                             var series_data = constructDataSeries(ds);
                             var column_names = constructColumnNames(ds)
-                            buildGraph(ds, series_data, column_names);
+                            buildGraph(ds, series_data, column_names, type);
                         },
                         error: function(){
                             alert('Oh no! There was an error.')
@@ -67,6 +69,7 @@
 
                     function constructColumnNames(ds){
                         var col_names = [];
+
                         // For each column, start at 1 to skip the first column which holds the name
                         for (var i = 1; i < ds.columnNames().length; i++){
                             col_names.push(ds.columnNames()[i])
@@ -75,11 +78,11 @@
 
                     }
 
-                    function buildGraph(ds, series_data, column_names){
+                    function buildGraph(ds, series_data, column_names, type){
                         chart = new Highcharts.Chart({
                             chart: {
                                 renderTo: 'chart-container',
-                                type: 'column'
+                                type: type
                             },
                             title: {
                                 text: 'Monthly Average Rainfall'
