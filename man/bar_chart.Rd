@@ -9,7 +9,8 @@
   \item{base}{a base note for the chord}
 }
 \value{
-  a folder with an interactive bar chart in it
+  a folder called "bar_chart" with an interactive bar chart
+  of your data in it
 }
 \description{
   generate an interactive bar chart
