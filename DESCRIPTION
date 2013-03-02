@@ -11,5 +11,5 @@ Description: highChaRRRts
 Depends:
     R (>= 2.15.2)
 Collate:
-    'bar_chart.R'
     'highChaRRRts_setup.R'
+    'highChaRRRts.R'
