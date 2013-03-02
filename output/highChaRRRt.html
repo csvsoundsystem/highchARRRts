@@ -43,11 +43,11 @@
 
                     var chart;
                     var CHART_OPTIONS = {
-                        c_type: 'this_is_the_type_of_chart',
+                        c_type: 'line',
                         title: 'this_is_the_title_of_the_chart',
                         x_label: 'this_is_the_x_label_of_the_chart',
                         y_label: 'this_is_the_y_label_of_the_chart',
-                        color_array : 'these_are_the_colors_of_the_rainbow'
+                        color_array : ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf', '#aec7e8', '#ffbb78', '#98df8a','#ff9896', '#c5b0d5','#c49c94', '#f7b6d2', '#c7c7c7', '#dbdb8d', '#9edae5']
                     }
 
                     var ds = new Miso.Dataset({
@@ -84,10 +84,16 @@
                                 row_values.push(row[ds.columnNames()[i]])
                             }
 
+                            // We only have 20 colors in our initial color hash, thank you ColorBrewer
+                            // So if you load more than 20 series, each one thereafter will just have a random one of those colors
+                            if (index > 20){
+                                var random = Math.floor(Math.random() * (20 - 0 + 1)) + 0;
+                                index = random;
+                            }
                             // Create a highchart series data object
                             var obj = {
                                 name: row[ds.columnNames()[0]],
-                                color: CHART_OPTIONS.color_array[index]
+                                color: CHART_OPTIONS.color_array[index],
                                 data: row_values
 
                             }
