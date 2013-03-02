@@ -48,7 +48,7 @@
                         x_label: 'this_is_the_x_label_of_the_chart',
                         y_label: 'this_is_the_y_label_of_the_chart',
                         color_array : ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf', '#aec7e8', '#ffbb78', '#98df8a','#ff9896', '#c5b0d5','#c49c94', '#f7b6d2', '#c7c7c7', '#dbdb8d', '#9edae5']
-                    }
+                    };
 
                     var ds = new Miso.Dataset({
                         url : 'csv/data_wide.csv',
@@ -69,7 +69,7 @@
                         var column_names = constructColumnNames()
                         buildGraph(series_data, column_names);
 
-                    }
+                    };
                     function constructDataSeries(){
                         var series = [];
                         var rows = ds.toJSON();
@@ -77,12 +77,12 @@
 
                         // For each row
                         _.each(rows, function(row, index){
-                            var row_values = []
+                            var row_values = [];
 
                             // For each column, start at 1 to skip the first column which holds the name
                             for (var i = 1; i < ds.columnNames().length; i++){
-                                row_values.push(row[ds.columnNames()[i]])
-                            }
+                                row_values.push(row[ds.columnNames()[i]]);
+                            };
 
                             // We only have 20 colors in our initial color hash, thank you ColorBrewer
                             // So if you load more than 20 series, each one thereafter will just have a random one of those colors
@@ -96,23 +96,23 @@
                                 color: CHART_OPTIONS.color_array[index],
                                 data: row_values
 
-                            }
+                            };
                             series.push(obj);
                         });
                         return series;
 
-                    }
+                    };
 
                     function constructColumnNames(){
                         var col_names = [];
 
                         // For each column, start at 1 to skip the first column which holds the name
                         for (var i = 1; i < ds.columnNames().length; i++){
-                            col_names.push(ds.columnNames()[i])
-                        }
+                            col_names.push(ds.columnNames()[i]);
+                        };
                         return col_names;
 
-                    }
+                    };
 
                     function buildGraph(series_data, column_names){
                         chart = new Highcharts.Chart({
@@ -178,7 +178,7 @@
                             },
                             series: series_data
                         });
-                    }
+                    };
 
                     $('#chart-selector').change(function(){
                         var chart_type = $(this).val();

@@ -5,3 +5,15 @@ An R package to create interactive HighCharts in JavaScript from a dataframe. Yo
 
 Currently supported chart types: bar, line, area, column.<br/>
 Chart types to come: scatterplot and others
+
+## Usage
+
+```
+	highChaRRRts(data, chart_type, x_axis_label, y_axis_label)
+```
+
+## So...
+
+```
+	highChaRRRts(df, "line", "Months", "Temperature")
+```
