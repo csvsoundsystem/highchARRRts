@@ -10,5 +10,5 @@ highChaRRRts(d,
              main="Title of the chart",
              xlab="X Label",
              ylab="Y Label",
-             output = "chart_output39",
-             pal="RdYlBu")
+             output = "chart_output",
+             pal="Set3")
