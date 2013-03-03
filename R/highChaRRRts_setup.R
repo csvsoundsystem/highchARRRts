@@ -29,5 +29,5 @@ highChaRRRts_setup <- function(chart_type) {
 
     write(high_charts_js, paste0(chart_type, "/libs/highcharts.js"))
     write(jquery_js, paste0(chart_type, "/libs/jquery-1.9.1.min.js"))
-    write(miso_js, paste0(chart_type, "/libs/miso.ds.deps.ie.0.4.1.js"))
+    write(miso_js, paste0(chart_type, "/libs/miso.ds.deps.ie.0.4.1.min.js"))
 }

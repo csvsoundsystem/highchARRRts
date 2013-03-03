@@ -1,14 +1,7 @@
 rm(list=ls())
 library("devtools")
 load_all("~/Dropbox/code/highChaRRRts")
-
 d <- read.csv("~/Dropbox/code/highChaRRRts/dev/csv/data_wide.csv", as.is=FALSE)
-
 setwd("~/Desktop")
-
-highChaRRRts(d, output = "highChaRRRt3")
+highChaRRRts(d, output = "highChaRRRt4")
 setwd("~/Dropbox/code/highChaRRRts/dev/")
-list.files()
-file("")
-
-f
