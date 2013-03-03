@@ -2,7 +2,7 @@
 \alias{highChaRRRts}
 \title{generate a set of interactive high Charts}
 \usage{
-  highChaRRRts(dcasted_df, type = "line", main = "",
+  highChaRRRts(dcasted_df, type = "bearclaw", main = "",
     xlab = "", ylab = "", output = "highChaRRRt",
     pal = NULL)
 }
