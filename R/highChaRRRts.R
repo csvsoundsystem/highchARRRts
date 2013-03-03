@@ -30,10 +30,10 @@ highChaRRRts <- function(dcasted_df,
   write.csv(dcasted_df, paste0(output, "/csv/data_wide.csv"), row.names=FALSE)
 
   # input custom parameters
-  highChaRRRt_template <- gsub("this_is_the_type_of_the_chart", type, highChaRRRt_template)
-  highChaRRRt_template <- gsub("this_is_the_title_of_the_chart", main, highChaRRRt_template)
-  highChaRRRt_template <- gsub("this_is_the_x_label_of_the_chart", xlab, highChaRRRt_template)
-  highChaRRRt_template <- gsub("this_is_the_y_label_of_the_chart", ylab, highChaRRRt_template)
+  highChaRRRts_template <- gsub("this_is_the_type_of_the_chart", type, highChaRRRts_template)
+  highChaRRRts_template <- gsub("this_is_the_title_of_the_chart", main, highChaRRRts_template)
+  highChaRRRts_template <- gsub("this_is_the_x_label_of_the_chart", xlab, highChaRRRts_template)
+  highChaRRRts_template <- gsub("this_is_the_y_label_of_the_chart", ylab, highChaRRRts_template)
 
   # if pal is not null, pass in custom ColorBrewer Palettes
   if(!is.null(pal)) {
@@ -49,7 +49,7 @@ highChaRRRts <- function(dcasted_df,
       color_pattern <- "^\\[\\'#1f77b4\\', \\'#ff7f0e\\', \\'#2ca02c\\', \\'#d62728\\', \\'#9467bd\\', \\'#8c564b\\', \\'#e377c2\\', \\'#7f7f7f\\', \\'#bcbd22\\', \\'#17becf\\', \\'#aec7e8\\', \\'#ffbb78\\', \\'#98df8a\\',\\'#ff9896\\', \\'#c5b0d5\\',\\'#c49c94\\', \\'#f7b6d2\\', \\'#c7c7c7\\', \\'#dbdb8d\\', \\'#9edae5\\'\\]$"
       highChaRRRt_template <- gsub(color_pattern, custom_palette, highChaRRRt_template)
   }
-  write(highChaRRRt_template, paste0(output, "/index.html"))
+  write(highChaRRRts_template, paste0(output, "/index.html"))
 }
 
 
