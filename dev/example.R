@@ -6,9 +6,9 @@ library("highChaRRRts")
 d <- read.csv("/Users/brian/Desktop/wide_est.csv", as.is=FALSE)
 
 highChaRRRts(d,
-             type="bar",
+             type="line",
              main="Title of the chart",
              xlab="X Label",
              ylab="Y Label",
-             output = "chart_output37",
+             output = "chart_output39",
              pal="RdYlBu")
