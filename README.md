@@ -21,7 +21,7 @@ library("highChaRRRts")
 highChaRRRts(dcasted_df)
 ```
 
-<p>Then in your console, cd to the directory it just created, default name "highChaRRRt". Then create a simple web server such as</p>
+<p>Then in your console, cd to the directory it just created, default name "chart_output". Then create a simple web server such as</p>
 ```
 python -m SimpleHTTPServer
 ```
@@ -30,18 +30,18 @@ python -m SimpleHTTPServer
 ## All options
 
 ```
-highChaRRRts(dcasted_df, chart_type, x_axis_label, y_axis_label, output)
+highChaRRRts(dcasted_df, type, main, xlab, ylab, output, pal)
 ```
 
 ## So...
 
 ```
-highChaRRRts(df, chart_type = "line", x_axis_label = "Months", y_axis_label = "Temperature", output = "chart_output")
+highChaRRRts(dcasted_df, type="line", main="Title of the Chart", xlab="X Label", ylab="Y Label, output="chart_output")
 ```
 
 ## More options
 <p>If you have the ColorBrewer package installed, you can pass it a name of the color set you want to use</p>
 
 ```
-highChaRRRts(dcasted_df, chart_type = "line", x_axis_label = "Months", y_axis_label = "Temperature", output = "chart_folder", pal="RdYlBu"
+highChaRRRts(dcasted_df, type="line", main="Title of the Chart", xlab="X Label", ylab="Y Label, output="chart_output", pal="RdYlBu")
 ```

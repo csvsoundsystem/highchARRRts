@@ -10,4 +10,4 @@ highChaRRRts(d,
              main="Title of the chart",
              xlab="X Label",
              ylab="Y Label",
-             output = "chart_output34")
+             output = "chart_output36")
