@@ -30,7 +30,7 @@ highChaRRRts <- function(dcasted_df,
   write.csv(dcasted_df, paste0(output, "/csv/data_wide.csv"), row.names=FALSE)
 
   # input custom parameters
-  highChaRRRt_template <- gsub("this_is_the_type_of_chart", type, highChaRRRt_template)
+  highChaRRRt_template <- gsub("this_is_the_type_of_the_chart", type, highChaRRRt_template)
   highChaRRRt_template <- gsub("this_is_the_title_of_the_chart", main, highChaRRRt_template)
   highChaRRRt_template <- gsub("this_is_the_x_label_of_the_chart", xlab, highChaRRRt_template)
   highChaRRRt_template <- gsub("this_is_the_y_label_of_the_chart", ylab, highChaRRRt_template)
