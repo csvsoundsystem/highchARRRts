@@ -24,7 +24,7 @@
 ## So...
 
 ```
-	highChaRRRts(df, chart_type = "line", x_axis_label = "Months", y_axis_label = "Temperature", output = "chart_folder")
+	highChaRRRts(df, chart_type = "line", x_axis_label = "Months", y_axis_label = "Temperature", output = "chart_output")
 ```
 
 ## More options
