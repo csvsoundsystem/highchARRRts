@@ -3,7 +3,7 @@
 ============
 _[a csv soundsystem joint](http://www.csvsoundsystem.com/)_
 
-<p>An R package to create interactive HighCharts in JavaScript from a dataframe. You'll want to use dcast in the reshape2 package to format it nicely. [more on that...](http://www.cookbook-r.com/Manipulating_data/Converting_data_between_wide_and_long_format/))</p>
+<p>An R package to create interactive HighCharts in JavaScript from a dataframe. You'll want to use dcast in the reshape2 package to format it nicely. [More on that...](http://www.cookbook-r.com/Manipulating_data/Converting_data_between_wide_and_long_format/)</p>
 
 <p>Currently supported chart types: bar, line, area, column.<p>
 <p>Chart types to come: scatterplot and others</p>
