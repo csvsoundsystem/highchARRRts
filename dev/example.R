@@ -1,14 +1,13 @@
 rm(list=ls())
 library("devtools")
-load_all("~/Dropbox/code/highChaRRRts")
+install_github("highChaRRRts", "csvsoundsystem")
+library("highChaRRRts")
 
-d <- read.csv("~/Dropbox/code/highChaRRRts/dev/csv/data_wide.csv", as.is=FALSE)
+d <- read.csv("/Users/brian/Desktop/wide_est.csv", as.is=FALSE)
 
-setwd("~/Desktop")
-
-highChaRRRts(d, output = "highChaRRRt3")
-setwd("~/Dropbox/code/highChaRRRts/dev/")
-list.files()
-file("")
-
-f
+highChaRRRts(d,
+             type="column",
+             main="Title of the chart",
+             xlab="X Label",
+             ylab="Y Label",
+             output = "chart_output33")
