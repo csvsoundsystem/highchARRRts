@@ -14,7 +14,7 @@
 #' @examples
 #' #not run
 highChaRRRts <- function(dcasted_df,
-                         type = "line",
+                         type = "column",
                          main = "",
                          xlab = "",
                          ylab = "",
