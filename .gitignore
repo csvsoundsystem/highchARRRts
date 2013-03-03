@@ -1,6 +1,6 @@
 # History files
 .Rhistory
 Highcharts-2.3.5
-
+.DS_Store
 # Example code in package build process
 *-Ex.R
