@@ -42,7 +42,16 @@ highChaRRRts <- function(dcasted_df,
   if(!is.null(pal)) {
       # generate a javascript array of colors dynamically
       n <- length(unique(dcasted_df[,1]))
-      raw_palette <- brewer.pal(n, pal)
+      if (n < 3) {
+        raw_palette <- brewer.pal(3, pal)
+        if (n==2) {
+          raw_palette <- raw_palette[c(1,3)]
+        } else if (n==1) {
+          raw_palette <- raw_palette[2]
+        }
+      } else {
+        raw_palette <- brewer.pal(n, pal)
+      }
 
       for (i in 1:n) {
         raw_palette[i] <- paste0("'", raw_palette[i], "'")
