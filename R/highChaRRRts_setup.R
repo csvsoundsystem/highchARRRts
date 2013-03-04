@@ -21,13 +21,13 @@ highChaRRRts_setup <- function(output_directory) {
     output_directory <- as.character(output_directory)
 
     # make the output directory
-    dir.create(output_directory)
+    dir.create(output_directory, silent=TRUE)
 
     # make the libs and csv folder
-    dir.create(paste0(output_directory, "/libs"))
-    dir.create(paste0(output_directory, "/csv"))
+    dir.create(paste0(output_directory, "/libs"), silent=TRUE)
+    dir.create(paste0(output_directory, "/csv"), silent=TRUE)
 
-    write(high_charts_js, paste0(output_directory, "/libs/highcharts.js"))
-    write(jquery_js, paste0(output_directory, "/libs/jquery-1.9.1.min.js"))
-    write(miso_js, paste0(output_directory, "/libs/miso.ds.deps.ie.0.4.1.min.js"))
+    write(high_charts_js, paste0(output_directory, "/libs/highcharts.js"), silent=TRUE, warn=FALSE)
+    write(jquery_js, paste0(output_directory, "/libs/jquery-1.9.1.min.js"), silent=TRUE, warn=FALSE)
+    write(miso_js, paste0(output_directory, "/libs/miso.ds.deps.ie.0.4.1.min.js"), silent=TRUE, warn=FALSE)
 }
