@@ -42,7 +42,6 @@ highChaRRRts(dcasted_df, type="line", main="Title of the Chart", xlab="X Label",
 ## And an example...
 
 ```
-rm(list=ls())
 library("devtools")
 install_github("highChaRRRts", "csvsoundsystem")
 library("highChaRRRts")
@@ -64,6 +63,7 @@ highChaRRRts(df,
              output = "chart_output",
              pal="Spectral")
 ```
+Check out the charts [here](http://bitly.com/highChaRRRts)
 
 ## Questions?
 Ask the developers / maintainers:
