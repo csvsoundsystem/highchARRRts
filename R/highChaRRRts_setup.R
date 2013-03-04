@@ -1,6 +1,6 @@
 #' setup the output folder/file structure for any given chart
 #'
-#' @param output_directory the name of the folder to create
+#' @param output_directory the name of the folder to
 #'
 #' @return
 #' a folder ready for an interactive chart and data file to be plopped in
