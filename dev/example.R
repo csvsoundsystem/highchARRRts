@@ -7,7 +7,8 @@ d <- read.csv("/Users/brian/Desktop/wide_est.csv", as.is=FALSE)
 
 highChaRRRts(d,
              type="bar",
-             main="Title of the chart",
+             main="I love Joanna",
              xlab="X Label",
              ylab="Y Label",
-             output = "chart_output36")
+             output = "output_1",
+             pal=NULL)
