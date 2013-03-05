@@ -6,7 +6,7 @@ _[by csv soundsystem](http://www.csvsoundsystem.com/)_
 An R package to create interactive HighCharts in JavaScript from a dataframe. You'll want to use dcast in the reshape2 package to format it nicely. [More on that](http://www.cookbook-r.com/Manipulating_data/Converting_data_between_wide_and_long_format/)
 
 <p>Currently supported chart types: bar, line, area, column.<p>
-<p>Chart types to come: scatterplot and others</p>
+<p>Chart types to come: datetime x-axis (coming soon), scatterplot and others</p>
 ## Install the package
 
 ```
@@ -39,7 +39,7 @@ highChaRRRts(dcasted_df, type, main, xlab, ylab, output, pal)
 highChaRRRts(dcasted_df, type="line", main="Title of the Chart", xlab="X Label", ylab="Y Label, output="chart_output", pal="RdYlBu")
 ```
 
-## And an example...
+## And a colorful example...
 
 ```
 library("devtools")
