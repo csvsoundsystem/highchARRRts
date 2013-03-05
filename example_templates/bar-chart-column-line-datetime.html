@@ -1,0 +1,195 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>HighchaRRRts - An R package for making interactive data sketches</title>
+
+        <style>
+            body{
+                font-family: "HelveticaNeue-Light", "Helvetica Neue Light","Helvetica Neue", Helvetica,sans-serif;
+                font-weight: 300;
+            }
+            #chart-container{
+                min-width: 400px;
+                height: 400px;
+                margin: 0 auto;
+            }
+            #pointer{
+                font-size:11px;
+            }
+            .chart-block{
+                margin-bottom:5px;
+            }
+        </style>
+		<script type="text/javascript" src="libs/jquery-1.9.1.min.js"></script>
+        <script src="libs/highcharts.js"></script>
+        <script src="libs/miso.ds.deps.ie.0.4.1.min.js"></script>
+    </head>
+    <body>
+        <div id="control" class="chart-block">
+            Change chart type:
+            <select id="chart-selector" class="chart-block">
+                <option value='line'>Line</option>
+                <option value='column'>Column</option>
+                <option value='area'>Area</option>
+                <option value='bar'>Bar</option>
+            </select>
+        </div>
+        <div id="pointer">Click on a data series in the legend to show or hide that series</div>
+        <div id="chart-container"></div>
+
+    	<script type="text/javascript">
+                (function(){
+
+                    var chart;
+                    var CHART_OPTIONS = {
+                        c_type: 'line',
+                        title: 'Title',
+                        x_label: 'X-Label',
+                        y_label: 'Y-Label',
+                        color_array : ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf', '#aec7e8', '#ffbb78', '#98df8a','#ff9896', '#c5b0d5','#c49c94', '#f7b6d2', '#c7c7c7', '#dbdb8d', '#9edae5']
+                    };
+
+                    var ds = new Miso.Dataset({
+                        url : 'csv/data_wide.csv',
+                        delimiter: ','
+                    });
+
+                    ds.fetch({
+                        success : function() {
+                            calcChartData();
+                        },
+                        error: function(){
+                            alert('Oh no! There was an error!')
+                        }
+                    });
+
+                    function calcChartData(){
+                        var series_data = constructDataSeries();
+                        var column_names = constructColumnNames();
+                        buildGraph(series_data, column_names);
+
+                    };
+                    function constructDataSeries(){
+                        var series = [];
+                        var rows = ds.toJSON();
+                        var first_col_name = ds.columnNames()[0];
+
+                        /* For each row */
+                        _.each(rows, function(row, index){
+                            var row_values = [];
+
+                            /* For each column, start at 1 to skip the first column which holds the name */
+                            for (var i = 1; i < ds.columnNames().length; i++){
+                                row_values.push(row[ds.columnNames()[i]]);
+                            };
+
+                            /* We only have 20 colors in our initial color hash, thank you ColorBrewer
+                            So if you load more than 20 series, each one thereafter will just have a random one of those colors */
+                            if (index > 20){
+                                var random = Math.floor(Math.random() * (20 - 0 + 1)) + 0;
+                                index = random;
+                            }
+                            /* Create a highchart series data object */
+                            var obj = {
+                                name: row[ds.columnNames()[0]],
+                                color: CHART_OPTIONS.color_array[index],
+                                data: row_values
+
+                            };
+                            series.push(obj);
+                        });
+                        return series;
+
+                    };
+
+                    function constructColumnNames(){
+                        var col_names = [];
+
+                        /* For each column, start at 1 to skip the first column which holds the name */
+                        for (var i = 1; i < ds.columnNames().length; i++){
+                            col_names.push(ds.columnNames()[i]);
+                        };
+                        return col_names;
+
+                    };
+
+                    function buildGraph(series_data, column_names){
+                        chart = new Highcharts.Chart({
+                            chart: {
+                                renderTo: 'chart-container',
+                                type: CHART_OPTIONS.c_type
+                            },
+                            title: {
+                                text: CHART_OPTIONS.title,
+                                style: {
+                                    color: '#303030',
+                                    font: 'normal 15px "Arial", sans-serif'
+                                }
+                            },
+                            subtitle: {
+                                text: ''
+                            },
+                            xAxis: {
+                                categories: column_names,
+                                title: {
+                                    text: CHART_OPTIONS.x_label,
+                                    style: {
+                                        color: '#303030',
+                                        font: 'normal 13px "Arial", sans-serif'
+                                    }
+                                }
+                            },
+                            yAxis: {
+                                min: 0,
+                                title: {
+                                    text: CHART_OPTIONS.y_label,
+                                    style: {
+                                        color: '#303030',
+                                        font: 'normal 13px "Arial", sans-serif'
+                                    }
+                                },
+                            },
+                            legend: {
+                                layout: 'vertical',
+                                backgroundColor: '#FFFFFF',
+                                align: 'right',
+                                verticalAlign: 'top',
+                                x: 0,
+                                y: 0,
+                                floating: true,
+                                shadow: false,
+                                borderRadius:0
+                            },
+                            tooltip: {
+                                formatter: function() {
+                                    return ''+
+                                        this.x +': '+ this.y;
+                                },
+                                borderRadius: 1,
+                                borderWidth: 1,
+                                shadow: false
+                            },
+                            plotOptions: {
+                                column: {
+                                    pointPadding: 0.2,
+                                    borderWidth: 0
+                                }
+                            },
+                            series: series_data
+                        });
+                    };
+
+                    $('#chart-selector').change(function(){
+                        var chart_type = $(this).val();
+                        CHART_OPTIONS.c_type = chart_type;
+                        calcChartData();
+                    });
+
+                    $('#chart-selector').val(CHART_OPTIONS.c_type);
+
+                }).call(this);
+
+    	</script>
+	</body>
+</html>
