@@ -68,22 +68,30 @@
                     });
 
                     function calcChartData(){
-                        // sortTimeData();
                         var series_data = constructDataSeries();
                         buildGraph(series_data);
 
                     };
-                    function sortTimeData(){
+                    function sortTimeData(rows){
+                        /* HighCharts will get confused if the data isn't in the proper order */
+                        rows.sort(function(a, b){
+                            var dateA = new Date(a[CHART_OPTIONS.date_col])
+                            var dateB = new Date(b[CHART_OPTIONS.date_col])
+                            return dateA - dateB //sort by date ascending
+                        });
+                        return rows
 
                     }
                     function constructDataSeries(){
                         var series = [];
                         var rows = ds.toJSON();
+                        var sorted_rows = sortTimeData(rows);
+                        /* This assumes that your first column is your name column. We could also make CHART_OPTIONS.name_col to explicitly choose that */
                         var first_col_name = ds.columnNames()[0];
 
                         /* Group by name */
                         var nested = {};
-                        _.each(rows, function(row, index){
+                        _.each(sorted_rows, function(row, index){
                             var series_name = row[first_col_name];
 
                             if (!nested[series_name]){
