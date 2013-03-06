@@ -1,0 +1,208 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>HighchaRRRts - An R package for making interactive data sketches</title>
+
+        <style>
+            body{
+                font-family: "HelveticaNeue-Light", "Helvetica Neue Light","Helvetica Neue", Helvetica,sans-serif;
+                font-weight: 300;
+            }
+            #chart-container{
+                min-width: 400px;
+                height: 400px;
+                margin: 0 auto;
+            }
+            #pointer{
+                font-size:11px;
+            }
+            .chart-block{
+                margin-bottom:5px;
+            }
+        </style>
+		<script type="text/javascript" src="libs/jquery-1.9.1.min.js"></script>
+        <script src="libs/highcharts.js"></script>
+        <script src="libs/miso.ds.deps.ie.0.4.1.min.js"></script>
+    </head>
+    <body>
+        <div id="control" class="chart-block">
+            Change chart type:
+            <select id="chart-selector" class="chart-block">
+                <option value='line'>Line</option>
+                <option value='column'>Column</option>
+                <option value='area'>Area</option>
+                <option value='bar'>Bar</option>
+            </select>
+        </div>
+        <div id="pointer">Click on a data series in the legend to show or hide that series</div>
+        <div id="chart-container"></div>
+
+    	<script type="text/javascript">
+                (function(){
+
+                    var chart;
+                    var CHART_OPTIONS = {
+                        c_type: 'line',
+                        date_col: 'date',
+                        date_format: 'YYYY-MM-DD',
+                        val_col: 'value',
+                        title: 'Title',
+                        x_label: 'X-Label',
+                        y_label: 'Y-Label',
+                        color_array : ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf', '#aec7e8', '#ffbb78', '#98df8a','#ff9896', '#c5b0d5','#c49c94', '#f7b6d2', '#c7c7c7', '#dbdb8d', '#9edae5']
+                    };
+
+                    var ds = new Miso.Dataset({
+                        url : 'csv/datetime_long.csv',
+                        delimiter: ','
+                    });
+
+                    ds.fetch({
+                        success : function() {
+                            calcChartData();
+                        },
+                        error: function(){
+                            alert('Oh no! There was an error!')
+                        }
+                    });
+
+                    function calcChartData(){
+                        var series_data = constructDataSeries();
+                        buildGraph(series_data);
+
+                    };
+                    function sortTimeData(rows){
+                        /* HighCharts will get confused if the data isn't in the proper order */
+                        rows.sort(function(a, b){
+                            var dateA = new Date(a[CHART_OPTIONS.date_col])
+                            var dateB = new Date(b[CHART_OPTIONS.date_col])
+                            return dateA - dateB //sort by date ascending
+                        });
+                        return rows
+
+                    }
+                    function constructDataSeries(){
+                        var series = [];
+                        var rows = ds.toJSON();
+                        var sorted_rows = sortTimeData(rows);
+                        /* This assumes that your first column is your name column. We could also make CHART_OPTIONS.name_col to explicitly choose that */
+                        var first_col_name = ds.columnNames()[0];
+
+                        /* Group by name */
+                        var nested = {};
+                        _.each(sorted_rows, function(row, index){
+                            var series_name = row[first_col_name];
+
+                            if (!nested[series_name]){
+                                nested[series_name] = new Array();
+                            };
+                            var date_object = moment.utc(row[CHART_OPTIONS.date_col], CHART_OPTIONS.date_format).valueOf()
+                            var arr = [date_object, row[CHART_OPTIONS.val_col]]
+
+                            nested[series_name].push(arr)
+                        });
+
+                        /* Format for HighCharts */
+                        for (var serie in nested){
+                            if (_.has(nested, serie)){
+                                var obj = {
+                                    'name': serie,
+                                    'data': nested[serie]
+                                }
+                                series.push(obj)
+                            }
+                        }
+                        return series
+                    };
+
+                    function constructColumnNames(){
+                        var col_names = [];
+
+                        /* For each column, start at 1 to skip the first column which holds the name */
+                        for (var i = 1; i < ds.columnNames().length; i++){
+                            col_names.push(ds.columnNames()[i]);
+                        };
+                        return col_names;
+
+                    };
+
+                    function buildGraph(series_data){
+                        chart = new Highcharts.Chart({
+                            chart: {
+                                renderTo: 'chart-container',
+                                type: CHART_OPTIONS.c_type
+                            },
+                            title: {
+                                text: CHART_OPTIONS.title,
+                                style: {
+                                    color: '#303030',
+                                    font: 'normal 15px "Arial", sans-serif'
+                                }
+                            },
+                            subtitle: {
+                                text: ''
+                            },
+                            xAxis: {
+                                type: 'datetime',
+                                title: {
+                                    text: CHART_OPTIONS.x_label,
+                                    style: {
+                                        color: '#303030',
+                                        font: 'normal 13px "Arial", sans-serif'
+                                    }
+                                }
+                            },
+                            yAxis: {
+                                min: 0,
+                                title: {
+                                    text: CHART_OPTIONS.y_label,
+                                    style: {
+                                        color: '#303030',
+                                        font: 'normal 13px "Arial", sans-serif'
+                                    }
+                                },
+                            },
+                            legend: {
+                                layout: 'vertical',
+                                backgroundColor: '#FFFFFF',
+                                align: 'right',
+                                verticalAlign: 'top',
+                                x: 0,
+                                y: 0,
+                                floating: true,
+                                shadow: false,
+                                borderRadius:0
+                            },
+                            tooltip: {
+                                formatter: function() {
+                                    return this.series.name + '<br/>'+
+                                        moment(this.x).format(CHART_OPTIONS.date_format) +': '+ this.y;
+                                },
+                                borderRadius: 1,
+                                borderWidth: 1,
+                                shadow: false
+                            },
+                            plotOptions: {
+                                column: {
+                                    pointPadding: 0.2,
+                                    borderWidth: 0
+                                }
+                            },
+                            series: series_data
+                        });
+                    };
+
+                    $('#chart-selector').change(function(){
+                        var chart_type = $(this).val();
+                        CHART_OPTIONS.c_type = chart_type;
+                        calcChartData();
+                    });
+
+                    $('#chart-selector').val(CHART_OPTIONS.c_type);
+
+                }).call(this);
+
+    	</script>
+	</body>
+</html>
