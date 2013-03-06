@@ -91,29 +91,41 @@
 
                         /* Group by name */
                         var nested = {};
+                        var index_counter = 0;
                         _.each(sorted_rows, function(row, index){
                             var series_name = row[first_col_name];
 
                             if (!nested[series_name]){
-                                nested[series_name] = new Array();
+                                nested[series_name] = {};
+                                nested[series_name]['data'] = new Array();
+                                nested[series_name]['color_index'] = index_counter;
+                                index_counter++;
                             };
                             var date_object = moment.utc(row[CHART_OPTIONS.date_col], CHART_OPTIONS.date_format).valueOf()
                             var arr = [date_object, row[CHART_OPTIONS.val_col]]
 
-                            nested[series_name].push(arr)
+                            nested[series_name]['data'].push(arr);
                         });
+
 
                         /* Format for HighCharts */
                         for (var serie in nested){
                             if (_.has(nested, serie)){
+                                /* We only have 20 colors in our initial color hash, thank you ColorBrewer */
+                                /* So if you load more than 20 series, each one thereafter will just have a random one of those colors */
+                                if (nested[serie]['color_index'] > 20){
+                                    var random = Math.floor(Math.random() * (20 + 1));
+                                    nested[serie]['color_index'] = random;
+                                };
                                 var obj = {
                                     'name': serie,
-                                    'data': nested[serie]
-                                }
+                                    'color': CHART_OPTIONS.color_array[nested[serie]['color_index']],
+                                    'data': nested[serie]['data']
+                                };
                                 series.push(obj)
                             }
                         }
-                        return series
+                        return series;
                     };
 
                     function constructColumnNames(){
