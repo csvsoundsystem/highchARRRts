@@ -23,7 +23,8 @@
         </style>
 		<script type="text/javascript" src="libs/jquery-1.9.1.min.js"></script>
         <script src="libs/highcharts.js"></script>
-        <script src="libs/miso.ds.deps.ie.0.4.1.js"></script>
+        <script src="libs/miso.ds.deps.ie.0.4.1.min.js"></script>
+        <script src="libs/moment.min.js"></script>
     </head>
     <body>
         <div id="control" class="chart-block">
@@ -47,11 +48,12 @@
                         title: 'Title',
                         x_label: 'X-Label',
                         y_label: 'Y-Label',
-                        color_array : ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf', '#aec7e8', '#ffbb78', '#98df8a','#ff9896', '#c5b0d5','#c49c94', '#f7b6d2', '#c7c7c7', '#dbdb8d', '#9edae5']
+                        color_array : ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf', '#aec7e8', '#ffbb78', '#98df8a','#ff9896', '#c5b0d5','#c49c94', '#f7b6d2', '#c7c7c7', '#dbdb8d', '#9edae5'],
+                        group_by: ['name','variable']
                     };
 
                     var ds = new Miso.Dataset({
-                        url : 'csv/data_wide.csv',
+                        url : 'csv/data_long_nondate.csv',
                         delimiter: ','
                     });
 
@@ -60,14 +62,15 @@
                             calcChartData();
                         },
                         error: function(){
-                            alert('Oh no! There was an error.');
+                            alert('Oh no! There was an error!')
                         }
                     });
 
                     function calcChartData(){
                         var series_data = constructDataSeries();
-                        var column_names = constructColumnNames();
-                        buildGraph(series_data, column_names);
+                        console.log(series_data)
+                        // var column_names = constructColumnNames();
+                        buildGraph(series_data, 'column_names');
 
                     };
                     function constructDataSeries(){
@@ -75,24 +78,25 @@
                         var rows = ds.toJSON();
                         var first_col_name = ds.columnNames()[0];
 
-                        // For each row
-                        _.each(rows, function(row, index){
+                        var column_concatenator = getKeyToComputeColumn();
+                        ds.addComputedColumn("group_key", "string", function(row) {
+                            return eval(column_concatenator)
+                        });
+                      
+                        var grouped_ds = ds.groupBy('group_key', ["value"]);
+                        var grouped_ds_rows = grouped_ds.toJSON();
+                        /* For each row */
+                        _.each(grouped_ds_rows, function(row, index){
                             var row_values = [];
-
-                            // For each column, start at 1 to skip the first column which holds the name
-                            for (var i = 1; i < ds.columnNames().length; i++){
-                                row_values.push(row[ds.columnNames()[i]]);
-                            };
-
-                            // We only have 20 colors in our initial color hash, thank you ColorBrewer
-                            // So if you load more than 20 series, each one thereafter will just have a random one of those colors
+                            /* We only have 20 colors in our initial color hash, thank you ColorBrewer
+                            So if you load more than 20 series, each one thereafter will just have a random one of those colors */
                             if (index > 20){
                                 var random = Math.floor(Math.random() * (20 + 1));
                                 index = random;
                             }
-                            // Create a highchart series data object
+                            /* Create a highchart series data object */
                             var obj = {
-                                name: row[ds.columnNames()[0]],
+                                name: row['group_key'],
                                 color: CHART_OPTIONS.color_array[index],
                                 data: row_values
 
@@ -103,17 +107,30 @@
 
                     };
 
-                    function constructColumnNames(){
-                        var col_names = [];
+                    // function constructColumnNames(){
+                    //     var col_names = [];
 
-                        // For each column, start at 1 to skip the first column which holds the name
-                        for (var i = 1; i < ds.columnNames().length; i++){
-                            col_names.push(ds.columnNames()[i]);
-                        };
-                        return col_names;
+                    //     /* For each column, start at 1 to skip the first column which holds the name */
+                    //     for (var i = 1; i < ds.columnNames().length; i++){
+                    //         col_names.push(ds.columnNames()[i]);
+                    //     };
+                    //     return col_names;
 
-                    };
-
+                    // };
+                    function getKeyToComputeColumn(){
+                        var computed_group = "row['";
+                        
+                        for (var i = 0; i < CHART_OPTIONS.group_by.length; i++){
+                            var new_key = CHART_OPTIONS.group_by[i];
+                            console.log(new_key);
+                            if(i != CHART_OPTIONS.group_by.length -1){
+                                computed_group += new_key + "'] +'-'+ row['";
+                            }else{
+                                computed_group += new_key + "']";
+                            }
+                        }
+                        return computed_group
+                    }
                     function buildGraph(series_data, column_names){
                         chart = new Highcharts.Chart({
                             chart: {
@@ -131,7 +148,8 @@
                                 text: ''
                             },
                             xAxis: {
-                                categories: column_names,
+                                categories: ['Science','Ecology','Math','English'],
+                                // categories: column_names,
                                 title: {
                                     text: CHART_OPTIONS.x_label,
                                     style: {
@@ -163,7 +181,7 @@
                             },
                             tooltip: {
                                 formatter: function() {
-                                    return this.series.name + '<br/>' +
+                                    return ''+
                                         this.x +': '+ this.y;
                                 },
                                 borderRadius: 1,
@@ -186,7 +204,7 @@
                         calcChartData();
                     });
 
-                    $('#chart-selector').val(CHART_OPTIONS.c_type)
+                    $('#chart-selector').val(CHART_OPTIONS.c_type);
 
                 }).call(this);
 

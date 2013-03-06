@@ -1,8 +1,9 @@
+
 <!DOCTYPE HTML>
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>HighchaRRRts - An R package for making interactive data sketches</title>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>HighchaRRRts - An R package for making interactive data sketches</title>
 
         <style>
             body{
@@ -21,9 +22,9 @@
                 margin-bottom:5px;
             }
         </style>
-		<script type="text/javascript" src="libs/jquery-1.9.1.min.js"></script>
+        <script type="text/javascript" src="libs/jquery-1.9.1.min.js"></script>
         <script src="libs/highcharts.js"></script>
-        <script src="libs/miso.ds.deps.ie.0.4.1.js"></script>
+        <script src="libs/miso.ds.deps.ie.0.4.1.min.js"></script>
     </head>
     <body>
         <div id="control" class="chart-block">
@@ -38,20 +39,20 @@
         <div id="pointer">Click on a data series in the legend to show or hide that series</div>
         <div id="chart-container"></div>
 
-    	<script type="text/javascript">
+        <script type="text/javascript">
                 (function(){
 
                     var chart;
                     var CHART_OPTIONS = {
-                        c_type: 'line',
-                        title: 'Title',
-                        x_label: 'X-Label',
-                        y_label: 'Y-Label',
-                        color_array : ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf', '#aec7e8', '#ffbb78', '#98df8a','#ff9896', '#c5b0d5','#c49c94', '#f7b6d2', '#c7c7c7', '#dbdb8d', '#9edae5']
+                        c_type: 'column',
+                        title: 'Title of the chart',
+                        x_label: 'X Label',
+                        y_label: 'Y Label',
+                        color_array : ['#9E0142','#D53E4F','#F46D43','#FDAE61','#FEE08B','#FFFFBF','#E6F598','#ABDDA4','#66C2A5','#3288BD','#5E4FA2']
                     };
 
                     var ds = new Miso.Dataset({
-                        url : 'csv/data_wide.csv',
+                        url : 'csv/groups_wide.csv',
                         delimiter: ','
                     });
 
@@ -60,7 +61,7 @@
                             calcChartData();
                         },
                         error: function(){
-                            alert('Oh no! There was an error.');
+                            alert('Oh no! There was an error!')
                         }
                     });
 
@@ -75,22 +76,22 @@
                         var rows = ds.toJSON();
                         var first_col_name = ds.columnNames()[0];
 
-                        // For each row
+                        /* For each row */
                         _.each(rows, function(row, index){
                             var row_values = [];
 
-                            // For each column, start at 1 to skip the first column which holds the name
+                            /* For each column, start at 1 to skip the first column which holds the name */
                             for (var i = 1; i < ds.columnNames().length; i++){
                                 row_values.push(row[ds.columnNames()[i]]);
                             };
 
-                            // We only have 20 colors in our initial color hash, thank you ColorBrewer
-                            // So if you load more than 20 series, each one thereafter will just have a random one of those colors
+                            /* We only have 20 colors in our initial color hash, thank you ColorBrewer
+                            So if you load more than 20 series, each one thereafter will just have a random one of those colors */
                             if (index > 20){
-                                var random = Math.floor(Math.random() * (20 + 1));
+                                var random = Math.floor(Math.random() * (20 - 0 + 1)) + 0;
                                 index = random;
                             }
-                            // Create a highchart series data object
+                            /* Create a highchart series data object */
                             var obj = {
                                 name: row[ds.columnNames()[0]],
                                 color: CHART_OPTIONS.color_array[index],
@@ -106,7 +107,7 @@
                     function constructColumnNames(){
                         var col_names = [];
 
-                        // For each column, start at 1 to skip the first column which holds the name
+                        /* For each column, start at 1 to skip the first column which holds the name */
                         for (var i = 1; i < ds.columnNames().length; i++){
                             col_names.push(ds.columnNames()[i]);
                         };
@@ -163,7 +164,7 @@
                             },
                             tooltip: {
                                 formatter: function() {
-                                    return this.series.name + '<br/>' +
+                                    return this.series.name+'<br/>'+
                                         this.x +': '+ this.y;
                                 },
                                 borderRadius: 1,
@@ -190,6 +191,6 @@
 
                 }).call(this);
 
-    	</script>
-	</body>
+        </script>
+    </body>
 </html>

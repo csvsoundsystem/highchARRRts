@@ -23,7 +23,7 @@
         </style>
 		<script type="text/javascript" src="libs/jquery-1.9.1.min.js"></script>
         <script src="libs/highcharts.js"></script>
-        <script src="libs/miso.ds.deps.ie.0.4.1.js"></script>
+        <script src="libs/miso.ds.deps.ie.0.4.1.min.js"></script>
     </head>
     <body>
         <div id="control" class="chart-block">
@@ -60,7 +60,7 @@
                             calcChartData();
                         },
                         error: function(){
-                            alert('Oh no! There was an error.');
+                            alert('Oh no! There was an error!')
                         }
                     });
 
@@ -75,22 +75,22 @@
                         var rows = ds.toJSON();
                         var first_col_name = ds.columnNames()[0];
 
-                        // For each row
+                        /* For each row */
                         _.each(rows, function(row, index){
                             var row_values = [];
 
-                            // For each column, start at 1 to skip the first column which holds the name
+                            /* For each column, start at 1 to skip the first column which holds the name */
                             for (var i = 1; i < ds.columnNames().length; i++){
                                 row_values.push(row[ds.columnNames()[i]]);
                             };
 
-                            // We only have 20 colors in our initial color hash, thank you ColorBrewer
-                            // So if you load more than 20 series, each one thereafter will just have a random one of those colors
+                            /* We only have 20 colors in our initial color hash, thank you ColorBrewer
+                            So if you load more than 20 series, each one thereafter will just have a random one of those colors */
                             if (index > 20){
-                                var random = Math.floor(Math.random() * (20 + 1));
+                                var random = Math.floor(Math.random() * (20 - 0 + 1)) + 0;
                                 index = random;
                             }
-                            // Create a highchart series data object
+                            /* Create a highchart series data object */
                             var obj = {
                                 name: row[ds.columnNames()[0]],
                                 color: CHART_OPTIONS.color_array[index],
@@ -106,7 +106,7 @@
                     function constructColumnNames(){
                         var col_names = [];
 
-                        // For each column, start at 1 to skip the first column which holds the name
+                        /* For each column, start at 1 to skip the first column which holds the name */
                         for (var i = 1; i < ds.columnNames().length; i++){
                             col_names.push(ds.columnNames()[i]);
                         };
@@ -163,7 +163,7 @@
                             },
                             tooltip: {
                                 formatter: function() {
-                                    return this.series.name + '<br/>' +
+                                    return ''+
                                         this.x +': '+ this.y;
                                 },
                                 borderRadius: 1,
@@ -186,7 +186,7 @@
                         calcChartData();
                     });
 
-                    $('#chart-selector').val(CHART_OPTIONS.c_type)
+                    $('#chart-selector').val(CHART_OPTIONS.c_type);
 
                 }).call(this);
 
