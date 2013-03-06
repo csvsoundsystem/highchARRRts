@@ -63,7 +63,7 @@ highChaRRRts(df,
              output = "chart_output",
              pal="Spectral")
 ```
-Check out the charts [here](http://bitly.com/highChaRRRts)
+Check out the charts [here](http://csvsoundsystem.github.com/highChaRRRts/example_templates/rainbow-bar-chart-column-line.html)
 
 ## Questions?
 Ask the developers / maintainers:
