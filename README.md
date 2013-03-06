@@ -7,6 +7,7 @@ An R package to create interactive HighCharts in JavaScript from a dataframe. Yo
 
 <p>Currently supported chart types: bar, line, area, column.<p>
 <p>Chart types to come: datetime x-axis (coming soon), scatterplot and others</p>
+<p><strong>Terms of service note: This library uses the HighCharts.js library. Which, in addition to being awesome, has some particular terms of use if you are a for-profit venture. Before using it on your site, we suggest [you make sure you are squared with their terms](http://shop.highsoft.com/highcharts.html).</strong></p>
 ## Install the package
 
 ```
