@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>HighchARRRts - A web interface for constructing interactive charts</title>
+	<style>
+		body{
+			font-family: "HelveticaNeue-Light", "Helvetica Neue Light","Helvetica Neue", Helvetica,sans-serif;
+			font-weight: 300;
+		}
+		ul,ol{
+			margin:0;
+			font-weight: bold;
+			/*padding:0;*/
+		}
+		#main-option-list li{
+			margin-bottom:10px;
+		}
+		#main-option-list li span{
+			font-weight:normal;
+
+		}
+		.option-group{
+			display:none;
+		}
+	</style>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+</head>
+<body>
+	<ol id="main-option-list">
+		<li>
+			<span>Enter the url of your data:</span> <input type="textfield"></input>
+			<input type="submit" value="Grab data">
+		</li>
+		<li><span>Set some general options</span>
+			<div>
+				<input type="texfield" placeholder="Title"></input>
+				<input type="texfield" placeholder="X-Axis label"></input>
+				<input type="texfield" placeholder="Y-Axis label"></input>
+			</div>
+		</li>
+		<li>
+			<span>What is your data?: </span>
+			<select id="template-selector">
+				<option value=""></option>
+				<option value="categorical">Categorical</option>
+				<option value="scatter">Scatter</option>
+				<option value="datetime">Time series</option>
+			</select>
+			<div id="categorical-options" class="option-group">
+				<span>Type:</span> <select class="chart-type-selector">
+	                <option value='line'>Line</option>
+	                <option value='line'>Line</option>
+	                <option value='column'>Column</option>
+	                <option value='area'>Area</option>
+	                <option value='bar'>Bar</option>
+	            </select>
+			</div>
+			<div id="scatter-options" class="option-group">
+				<span>Type:</span> <select class="chart-type-selector">
+	                <option value='line'>Line</option>
+	                <option value='column'>Column</option>
+	                <option value='area'>Area</option>
+	                <option value='bar'>Bar</option>
+	            </select>
+	            <input type="texfield" placeholder="X-Value column name"></input>
+	            <input type="texfield" placeholder="Y-Value column name"></input>
+			</div>
+			<div id="datetime-options" class="option-group">
+				<span>Type:</span> <select class="chart-type-selector">
+	                <option value='line'>Line</option>
+	                <option value='column'>Column</option>
+	                <option value='area'>Area</option>
+	                <option value='bar'>Bar</option>
+	            </select>
+	            <input type="texfield" placeholder="Date column name"></input>
+	            <input type="texfield" placeholder="Value column name"></input>
+	            <input type="texfield" placeholder="Date format (YYY-MM-DD)"></input>
+			</div>
+		</li>
+		<li><span>Draw / Update chart with new option</span> <input type="submit" value="GO!"></li>
+	</ol>
+
+	<script>
+		(function(){
+			$("#template-selector").change(function(){
+				var template = $(this).val();
+				$('.option-group').hide();
+				$("#"+template+"-options").show();
+			});
+		}).call(this);
+	</script>
+
+</body>
+</html>
