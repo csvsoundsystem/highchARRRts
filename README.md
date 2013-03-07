@@ -1,4 +1,4 @@
-<center>![highChaRRRts](imgs/pirate.png)</center>
+<center>![highChaRRRts](imgs/pirate-arr.png)</center>
 ##generate interactive plots in AAAARRRRRRRR#
 ============
 _[by csv soundsystem](http://www.csvsoundsystem.com/)_
