@@ -9,10 +9,10 @@
 #'
 #' @examples
 #' #not run
-highChaRRRts_setup <- function(output_directory) {
+charrrt_setup <- function(output_directory) {
 
     # require the library
-    require("highChaRRRts")
+    require("highchARRRts")
 
     # ensure we're in the right directory
     setwd(getwd())
@@ -30,4 +30,5 @@ highChaRRRts_setup <- function(output_directory) {
     write(high_charts_js, paste0(output_directory, "/libs/highcharts.js"))
     write(jquery_js, paste0(output_directory, "/libs/jquery-1.9.1.min.js"))
     write(miso_js, paste0(output_directory, "/libs/miso.ds.deps.ie.0.4.1.min.js"))
+    write(moment_js, paste0(output_directory, "/libs/moment.min.js"))
 }

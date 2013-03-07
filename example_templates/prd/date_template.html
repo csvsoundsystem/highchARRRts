@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>HighchaRRRts - An R package for making interactive data sketches</title>
+		<title>highchARRRts - An R package for making interactive data sketches</title>
 
         <style>
             body{
@@ -30,6 +30,8 @@
             Change chart type:
             <select id="chart-selector" class="chart-block">
                 <option value='line'>Line</option>
+                <option value='spline'>Spline</option>
+                <option value='scatter'>Scatter</option>
                 <option value='column'>Column</option>
                 <option value='area'>Area</option>
                 <option value='bar'>Bar</option>
@@ -44,6 +46,9 @@
                     var chart;
                     var CHART_OPTIONS = {
                         c_type: 'this_is_the_type_of_the_chart',
+                        date_col: 'this_is_the_date_col_of_the_chart',
+                        date_format: 'this_is_the_date_format_of_the_chart',
+                        val_col: 'this_is_the_val_col_of_the_chart',
                         title: 'this_is_the_title_of_the_chart',
                         x_label: 'this_is_the_x_label_of_the_chart',
                         y_label: 'this_is_the_y_label_of_the_chart',
@@ -51,7 +56,7 @@
                     };
 
                     var ds = new Miso.Dataset({
-                        url : 'csv/data_wide.csv',
+                        url : 'csv/data.csv',
                         delimiter: ','
                     });
 
@@ -66,41 +71,63 @@
 
                     function calcChartData(){
                         var series_data = constructDataSeries();
-                        var column_names = constructColumnNames();
-                        buildGraph(series_data, column_names);
+                        buildGraph(series_data);
 
                     };
+                    function sortTimeData(rows){
+                        /* HighCharts will get confused if the data isn't in the proper order */
+                        rows.sort(function(a, b){
+                            var dateA = new Date(a[CHART_OPTIONS.date_col])
+                            var dateB = new Date(b[CHART_OPTIONS.date_col])
+                            return dateA - dateB //sort by date ascending
+                        });
+                        return rows
+
+                    }
                     function constructDataSeries(){
                         var series = [];
                         var rows = ds.toJSON();
+                        var sorted_rows = sortTimeData(rows);
+                        /* This assumes that your first column is your name column. We could also make CHART_OPTIONS.name_col to explicitly choose that */
                         var first_col_name = ds.columnNames()[0];
 
-                        /* For each row */
-                        _.each(rows, function(row, index){
-                            var row_values = [];
+                        /* Group by name */
+                        var nested = {};
+                        var index_counter = 0;
+                        _.each(sorted_rows, function(row, index){
+                            var series_name = row[first_col_name];
 
-                            /* For each column, start at 1 to skip the first column which holds the name */
-                            for (var i = 1; i < ds.columnNames().length; i++){
-                                row_values.push(row[ds.columnNames()[i]]);
+                            if (!nested[series_name]){
+                                nested[series_name] = {};
+                                nested[series_name]['data'] = new Array();
+                                nested[series_name]['color_index'] = index_counter;
+                                index_counter++;
                             };
+                            var date_object = moment.utc(row[CHART_OPTIONS.date_col], CHART_OPTIONS.date_format).valueOf()
+                            var arr = [date_object, row[CHART_OPTIONS.val_col]]
 
-                            /* We only have 20 colors in our initial color hash, thank you ColorBrewer
-                            So if you load more than 20 series, each one thereafter will just have a random one of those colors */
-                            if (index > 20){
-                                var random = Math.floor(Math.random() * (20 - 0 + 1)) + 0;
-                                index = random;
-                            }
-                            /* Create a highchart series data object */
-                            var obj = {
-                                name: row[ds.columnNames()[0]],
-                                color: CHART_OPTIONS.color_array[index],
-                                data: row_values
-
-                            };
-                            series.push(obj);
+                            nested[series_name]['data'].push(arr);
                         });
-                        return series;
 
+
+                        /* Format for HighCharts */
+                        for (var serie in nested){
+                            if (_.has(nested, serie)){
+                                /* We only have 20 colors in our initial color hash, thank you ColorBrewer */
+                                /* So if you load more than 20 series, each one thereafter will just have a random one of those colors */
+                                if (nested[serie]['color_index'] > 20){
+                                    var random = Math.floor(Math.random() * (20 + 1));
+                                    nested[serie]['color_index'] = random;
+                                };
+                                var obj = {
+                                    'name': serie,
+                                    'color': CHART_OPTIONS.color_array[nested[serie]['color_index']],
+                                    'data': nested[serie]['data']
+                                };
+                                series.push(obj)
+                            }
+                        }
+                        return series;
                     };
 
                     function constructColumnNames(){
@@ -114,7 +141,7 @@
 
                     };
 
-                    function buildGraph(series_data, column_names){
+                    function buildGraph(series_data){
                         chart = new Highcharts.Chart({
                             chart: {
                                 renderTo: 'chart-container',
@@ -131,7 +158,7 @@
                                 text: ''
                             },
                             xAxis: {
-                                categories: column_names,
+                                type: 'datetime',
                                 title: {
                                     text: CHART_OPTIONS.x_label,
                                     style: {
@@ -163,8 +190,8 @@
                             },
                             tooltip: {
                                 formatter: function() {
-                                    return ''+
-                                        this.x +': '+ this.y;
+                                    return this.series.name + '<br/>'+
+                                        moment(this.x).format(CHART_OPTIONS.date_format) +': '+ this.y;
                                 },
                                 borderRadius: 1,
                                 borderWidth: 1,
@@ -185,6 +212,8 @@
                         CHART_OPTIONS.c_type = chart_type;
                         calcChartData();
                     });
+
+                    $('#chart-selector').val(CHART_OPTIONS.c_type);
 
                 }).call(this);
 
