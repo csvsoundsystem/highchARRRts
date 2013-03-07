@@ -1,2 +1,2 @@
-export(highChaRRRts)
-export(highChaRRRts_setup)
+export(charrrt)
+export(charrrt_setup)

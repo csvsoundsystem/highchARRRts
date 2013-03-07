@@ -1,11 +1,11 @@
-\name{highChaRRRts_setup}
-\alias{highChaRRRts_setup}
+\name{charrrt_setup}
+\alias{charrrt_setup}
 \title{setup the output folder/file structure for any given chart}
 \usage{
-  highChaRRRts_setup(chart_type)
+  charrrt_setup(output_directory)
 }
 \arguments{
-  \item{base}{a base note for the chord}
+  \item{output_directory}{the name of the folder to}
 }
 \value{
   a folder ready for an interactive chart and data file to
