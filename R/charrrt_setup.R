@@ -11,9 +11,6 @@
 #' #not run
 charrrt_setup <- function(output_directory) {
 
-    # require the library
-    require("highchARRRts")
-
     # ensure we're in the right directory
     setwd(getwd())
 

@@ -1,65 +1,250 @@
+xcol="x",
+ycol="y")
+setwd("/Users/brian/Desktop/NYT/red_carpet/")
+d <- read.csv("data/data_no_nyt_clean_user_aggregations", as.is=TRUE)
+df_scatter
+plot_df <- subset(d, select=c('only_slides', 'n_events', 'total_time'))
+head(plot_df)
+d <- read.csv("data/data_no_nyt_clean_user_aggregations", as.is=TRUE)
+outlier removal fx
+remove_outliers <- function(df, x, low, high, na.rm = TRUE, ...) {
+qnt <- quantile(x, probs=c(low, high), na.rm = na.rm, ...)
+H <- 1.5 * IQR(x, na.rm = na.rm)
+y <- x
+y[x < (qnt[1] - H)] <- NA
+y[x > (qnt[2] + H)] <- NA
+df[!is.na(y),]
+}
+d <- remove_outliers(d, d$total_time, low=0.005, high=0.995)
+err <- which(d$total_time<1 & d$n_events>10)
+d <- d[-err, ]
+plot_df <- subset(d, select=c('only_slides', 'n_events', 'total_time'))
+plot_df <- subset(d, select=c('only_slides', 'n_events', 'total_time'))
+charrrt(df_scatter,
+type="scatter",
+main="Title",
+xlab="X-Label",
+ylab="Y-Label",
+output = "chart_output",
+pal="RdYlBu",
+xcol="total_time",
+ycol="n_events")
+charrrt(plot_df,
+type="scatter",
+main="Title",
+xlab="X-Label",
+ylab="Y-Label",
+output = "chart_output",
+pal="RdYlBu",
+xcol="total_time",
+ycol="n_events")
+require("scales")
+p <- brewer.pal(5, "Blues")
+alpha(p, 0.3)
+raw_palette <- alpha(raw_palette, alph)
+setwd("~/Dropbox/code/highchARRRts")
 library("devtools")
-load_all("~/Dropbox/code/highChaRRRts")
-d <- read.csv("~/Dropbox/code/highChaRRRts/dev/csv/data_wide.csv", as.is=FALSE)
-setwd("~/Desktop")
-highChaRRRts(d, output = "highChaRRRt2")
-highChaRRRt_template <- readLines("/Users/brian/Dropbox/code/highChaRRRts/dev/highChaRRRt.html")
-highChaRRRt_template <- paste(highChaRRRt_template, collapse="")
-save(highChaRRRt_template, file="/Users/brian/Dropbox/code/highChaRRRts/data/highChaRRRt_template.rda")
-document("~/Dropbox/code/highChaRRRts")
+load_all(".")
+document(".")
+setwd("~/Dropbox/code/highchARRRts")
 library("devtools")
-load_all("~/Dropbox/code/highChaRRRts")
-rm(list=ls())
+load_all(".")
+setwd("/Users/brian/Desktop/NYT/red_carpet/")
+d <- read.csv("data/data_no_nyt_clean_user_aggregations", as.is=TRUE)
+outlier removal fx
+remove_outliers <- function(df, x, low, high, na.rm = TRUE, ...) {
+qnt <- quantile(x, probs=c(low, high), na.rm = na.rm, ...)
+H <- 1.5 * IQR(x, na.rm = na.rm)
+y <- x
+y[x < (qnt[1] - H)] <- NA
+y[x > (qnt[2] + H)] <- NA
+df[!is.na(y),]
+}
+d <- remove_outliers(d, d$total_time, low=0.005, high=0.995)
+err <- which(d$total_time<1 & d$n_events>10)
+d <- d[-err, ]
+plot_df <- subset(d, select=c('only_slides', 'n_events', 'total_time'))
+scatter example
+charrrt(plot_df,
+type="scatter",
+main="Title",
+xlab="X-Label",
+ylab="Y-Label",
+output = "chart_output",
+pal="RdYlBu",
+alph=0.3,
+xcol="total_time",
+ycol="n_events")
+raw_palette <- alpha(raw_palette, alph)
+charrrt(plot_df,
+type="scatter",
+main="Title",
+xlab="X-Label",
+ylab="Y-Label",
+output = "chart_output",
+pal="Spectral",
+alph=0.3,
+xcol="total_time",
+ycol="n_events")
+charrrt(plot_df,
+type="scatter",
+main="Title",
+xlab="X-Label",
+ylab="Y-Label",
+output = "chart_output",
+pal="Spectral",
+alph=1,
+xcol="total_time",
+ycol="n_events")
+col2rgb(#EFF3FF4D, alpha = TRUE)
+col2rgb(""#EFF3FF4D", alpha = TRUE)
+""
+col2rgb("#EFF3FF4D", alpha = TRUE)
+col2rgb(c("#EFF3FF4D","#EFF3FF4D") alpha = TRUE)
+col2rgb(c("#EFF3FF4D","#EFF3FF4D"), alpha = TRUE)
+rgba <- col2rgb(c("#EFF3FF4D","#EFF3FF4D"), alpha = TRUE)
+rgba[1]
+paste0('rgba(', rgba[1], ',', rgba[2], ',', rgba[3], ',', rgba[4], ')')
+hex_to_high_chart_rgba <- function(color) {
+rgba <- col2rgb(color, alpha=TRUE)
+paste0('rgba(', rgba[1], ',', rgba[2], ',', rgba[3], ',', rgba[4], ')')
+}
+setwd("~/Dropbox/code/highchARRRts")
 library("devtools")
-load_all("~/Dropbox/code/highChaRRRts")
-d <- read.csv("~/Dropbox/code/highChaRRRts/dev/csv/data_wide.csv", as.is=FALSE)
-setwd("~/Desktop")
-highChaRRRts(d, output = "highChaRRRt3")
-read("/Users/brian/Dropbox/code/highChaRRRts/dev/highChaRRRt.html")
-setwd("~/Dropbox/code/highChaRRRts/dev/")
-list.files()
-open("highChaRRRt.html", open = "r", blocking = TRUE, ...)
-open("highChaRRRt.html", open = "r", blocking = TRUE)
-open("highChaRRRt.html", open = "r")
-file("highChaRRRt.html", open = "r")
-f <- file("highChaRRRt.html", open = "r")
-f
-f <- scan("highChaRRRt.html")
-f <- scan("highChaRRRt.html", what="character")
-f
-f <- scan("highChaRRRt.html", what="raw")
-f
-f <- readLines("highChaRRRt.html")
-f
-f <- paste(f, collapse="\n")
-f
-list.files()
-setwd("~/Dropbox/code/highChaRRRts")
-list.files()
-readChar("dev/highChaRRRts.html")
-readChar("dev/highChaRRRt.html")
-readChar("dev/highChaRRRt.html", nchars=1)
-readChar("dev/highChaRRRt.html", nchars=10000000000)
-readChar("dev/highChaRRRt.html", nchars=length(nchars))
-readChar("dev/highChaRRRt.html", nchars=100)
-readChar("dev/highChaRRRt.html", nchars=10000)
-readChar("dev/highChaRRRt.html", nchars=100000)
-readChar("dev/highChaRRRt.html", nchars=100000)
-readChar("dev/highChaRRRt.html", nchars=100000)
-readChar("dev/highChaRRRt.html", nchars=1000000)
-readChar("dev/highChaRRRt.html", nchars=100000)
-readChar("dev/highChaRRRt.html", nchars=10000)
-readChar("dev/highChaRRRt.html", nchars=10000)
-readChar("dev/highChaRRRt.html", nchars=10000)
-list.files()
-readChar("dev/highChaRRRt.html", nchars=1000000)
-readChar("dev/highChaRRRt.html", nchars=10000000)
-readChar("dev/highChaRRRt.html", nchars=100000000)
-highChaRRRt_template <- readChar("dev/highChaRRRt.html", nchars=100000000)
-save(highChaRRRt_template, file="data/highChaRRRt_template.rda")
-high_charts_js <- readChar("/Users/brian/Dropbox/code/highChaRRRts/dev/libs/highcharts.js", nchars=100000000)
-save(high_charts_js, file="data/high_charts_js.rda")
-jquery_js <- readChar("/Users/brian/Dropbox/code/highChaRRRts/dev/libs/jquery-1.9.1.min.js", nchars=100000000)
-save(jquery_js, file="data/jquery_js.rda")
-miso_js <- readChar("/Users/brian/Dropbox/code/highChaRRRts/dev/libs/miso.ds.deps.ie.0.4.1.min.js", nchars=100000000)
-save(miso_js, file="data/miso_js.rda")
+load_all(".")
+setwd("/Users/brian/Desktop/NYT/red_carpet/")
+d <- read.csv("data/data_no_nyt_clean_user_aggregations", as.is=TRUE)
+outlier removal fx
+remove_outliers <- function(df, x, low, high, na.rm = TRUE, ...) {
+qnt <- quantile(x, probs=c(low, high), na.rm = na.rm, ...)
+H <- 1.5 * IQR(x, na.rm = na.rm)
+y <- x
+y[x < (qnt[1] - H)] <- NA
+y[x > (qnt[2] + H)] <- NA
+df[!is.na(y),]
+}
+d <- remove_outliers(d, d$total_time, low=0.005, high=0.995)
+err <- which(d$total_time<1 & d$n_events>10)
+d <- d[-err, ]
+plot_df <- subset(d, select=c('only_slides', 'n_events', 'total_time'))
+charrrt(plot_df,
+type="scatter",
+main="Title",
+xlab="X-Label",
+ylab="Y-Label",
+output = "chart_output",
+pal="Spectral",
+alph=0.5,
+xcol="total_time",
+ycol="n_events")
+setwd("~/Dropbox/code/highchARRRts")
+library("devtools")
+load_all(".")
+setwd("/Users/brian/Desktop/NYT/red_carpet/")
+d <- read.csv("data/data_no_nyt_clean_user_aggregations", as.is=TRUE)
+outlier removal fx
+remove_outliers <- function(df, x, low, high, na.rm = TRUE, ...) {
+qnt <- quantile(x, probs=c(low, high), na.rm = na.rm, ...)
+H <- 1.5 * IQR(x, na.rm = na.rm)
+y <- x
+y[x < (qnt[1] - H)] <- NA
+y[x > (qnt[2] + H)] <- NA
+df[!is.na(y),]
+}
+d <- remove_outliers(d, d$total_time, low=0.005, high=0.995)
+err <- which(d$total_time<1 & d$n_events>10)
+d <- d[-err, ]
+plot_df <- subset(d, select=c('only_slides', 'n_events', 'total_time'))
+charrrt(plot_df,
+type="scatter",
+main="Title",
+xlab="X-Label",
+ylab="Y-Label",
+output = "chart_output",
+pal="Spectral",
+alph=0.5,
+xcol="total_time",
+ycol="n_events")
+setwd("~/Dropbox/code/highchARRRts")
+library("devtools")
+load_all(".")
+setwd("/Users/brian/Desktop/NYT/red_carpet/")
+d <- read.csv("data/data_no_nyt_clean_user_aggregations", as.is=TRUE)
+outlier removal fx
+remove_outliers <- function(df, x, low, high, na.rm = TRUE, ...) {
+qnt <- quantile(x, probs=c(low, high), na.rm = na.rm, ...)
+H <- 1.5 * IQR(x, na.rm = na.rm)
+y <- x
+y[x < (qnt[1] - H)] <- NA
+y[x > (qnt[2] + H)] <- NA
+df[!is.na(y),]
+}
+d <- remove_outliers(d, d$total_time, low=0.005, high=0.995)
+err <- which(d$total_time<1 & d$n_events>10)
+d <- d[-err, ]
+plot_df <- subset(d, select=c('only_slides', 'n_events', 'total_time'))
+scatter example
+charrrt(plot_df,
+type="scatter",
+main="Title",
+xlab="X-Label",
+ylab="Y-Label",
+output = "chart_output",
+pal="Spectral",
+alph=0.5,
+xcol="total_time",
+ycol="n_events")
+charrrt(plot_df,
+type="scatter",
+main="Title",
+xlab="X-Label",
+ylab="Y-Label",
+output = "chart_output",
+pal="Spectral",
+alph=0.1,
+xcol="total_time",
+ycol="n_events")
+scatter example
+charrrt(plot_df,
+type="scatter",
+main="Title",
+xlab="X-Label",
+ylab="Y-Label",
+output = "chart_output",
+pal="Spectral",
+alph=0.2,
+xcol="total_time",
+ycol="n_events")
+setwd("~/Dropbox/code/highchARRRts")
+library("devtools")
+load_all(".")
+charrrt(plot_df,
+type="scatter",
+main="Title",
+xlab="X-Label",
+ylab="Y-Label",
+output = "chart_output",
+pal="Spectral",
+alph=0.2,
+xcol="total_time",
+ycol="n_events")
+charrrt(plot_df,
+type="scatter",
+main="Title",
+xlab="X-Label",
+ylab="Y-Label",
+output = "chart_output",
+pal="Blues",
+alph=0.2,
+xcol="total_time",
+ycol="n_events")
+charrrt(plot_df,
+type="scatter",
+main="Title",
+xlab="X-Label",
+ylab="Y-Label",
+output = "chart_output",
+pal="Blues",
+alph=0.2,
+xcol="total_time",
+ycol="n_events")

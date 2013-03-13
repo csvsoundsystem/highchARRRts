@@ -3,9 +3,10 @@
 \title{generate a set of interactive high charts}
 \usage{
   charrrt(dcasted_df, type = "line", main = "", xlab = "",
-    ylab = "", output = "chart_output", pal = NULL,
+    ylab = "", output = "charrrt", pal = NULL, alph = 0.3,
     xcol = NULL, ycol = NULL, date_col = NULL,
-    val_col = NULL, date_format = "YYYY-MM-DD")
+    val_col = NULL, date_format = "YYYY-MM-DD",
+    verbose = TRUE)
 }
 \arguments{
   \item{df}{your dcasted dataframe}
@@ -20,20 +21,27 @@
 
   \item{output}{the directory to create for the plots}
 
-  \item{xcol}{the name of the x-column of your data (only
-  for scatterplots)}
+  \item{pal}{A palette from R Color Brewer}
 
-  \item{ycol}{the name of the y-column of your data (only
-  for scatterplots)}
+  \item{alpha}{the alpha level to apply to the palette.}
 
-  \item{date_col}{the name of the date-column of your data
-  (only for time series plots)}
+  \item{xcol}{the name of the x-column in your dataframe
+  (only for scatterplots)}
 
-  \item{val_col}{the name of the value-column of your data
-  (only for time series plots)}
+  \item{ycol}{the name of the y-column in your dataframe
+  (only for scatterplots)}
 
-  \item{date_format}{the formate of the date-column,
+  \item{date_col}{the name of the date-column in your
+  dataframe (only for time series plots)}
+
+  \item{val_col}{the name of the value-column in your
+  dataframe (only for time series plots)}
+
+  \item{date_format}{the format of the date-column,
   defaults to "YYYY-MM-DD" (only for time series plots)}
+
+  \item{verbose}{logical; do you want highchARRRts to tell
+  you how to view your interactive charrrt?}
 }
 \value{
   a folder with the name determined from output with an

@@ -9,7 +9,8 @@ ZipData: yes
 Title: highchARRRts
 Description: highchARRRts
 Depends:
-    R (>= 2.15.2)
+    R (>= 2.15.2),
+    RColorBrewer
 Collate:
     'charrrt.R'
     'charrrt_setup.R'
