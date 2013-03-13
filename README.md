@@ -16,10 +16,36 @@ install_github("highChaRRRts", "csvsoundsystem")
 library("highChaRRRts")
 ```
 
-## Basic usage
+## What data structure does it need?
+
+There are two general data formats when dealing with dataframes and we'll use the terminology "long" and "wide". For reference, read [the R Cookbook explanation](http://www.cookbook-r.com/Manipulating_data/Converting_data_between_wide_and_long_format/) on the difference between the two. Generally, a long format is one where each row contains all the information for a given record so you can append records one at a time. 
+```
+name,variable,value
+John,apples,2
+John,oranges,3
+Jane,pears,1
+```
+A wide format is one that is column dependent
+```
+name,apples,oranges,pears
+John,2,3,0
+Jane,0,01
+```
+
+highchARRRts prefers your data to be in long format except for categorical data, like the example above.
+
+To convert from long to wide, use the dcast method in the reshape2 package for R. The [R Cookpost post](http://www.cookbook-r.com/Manipulating_data/Converting_data_between_wide_and_long_format/) can tell you about all the different parameters you might need to use depending on the complexity of your data. 
+
+For everything else, long format is what you'll want, which is great because your data is probably already in long format.
+
+## Usage
+
+highchARRRts has the following required parameters
+...
 
 ```
-highChaRRRts(dcasted_df)
+highchaRRRts(dcasted_df, type, main, xlab, ylab, output, pal)
+
 ```
 
 <p>Then in your console, cd to the directory it just created, default name "chart_output". Then create a simple web server such as</p>
@@ -28,11 +54,6 @@ python -m SimpleHTTPServer
 ```
 <p>Then point your browser to 0.0.0.0:8000</p>
 
-## All options
-
-```
-highChaRRRts(dcasted_df, type, main, xlab, ylab, output, pal)
-```
 
 ## So...
 
