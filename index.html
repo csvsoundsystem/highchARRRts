@@ -55,7 +55,7 @@
 	<div style="float:left;">
 		<ol id="main-option-list">
 			<li>
-				<span>Enter the url of your data:</span> <input id="data-path" type="textfield"></input>
+				<span>Enter the key of your Google spreadsheet of your data:</span> <input id="data-path" type="textfield"></input>
 			</li>
 			<li><span>Set some general options</span>
 				<div>
@@ -106,7 +106,7 @@
 			</li>
 			<li><span>Draw / Update chart with new option</span> <input id="draw-redraw" type="submit" value="GO!"></li>
 		</ol>
-	<div>
+	</div>
 	<div id="chart-container"></div>
 
 	<script>
@@ -183,8 +183,12 @@
                     };
 
                     var ds = new Miso.Dataset({
-                        url : data_path,
-                        delimiter: ','
+                          importer : Miso.Dataset.Importers.GoogleSpreadsheet,
+                          parser : Miso.Dataset.Parsers.GoogleSpreadsheet,
+                          key : data_path,
+                          worksheet : "1"
+                        // url : data_path,
+                        // delimiter: ','
                     });
 
                     ds.fetch({
@@ -346,8 +350,10 @@
                     };
 
                     var ds = new Miso.Dataset({
-                        url : data_path,
-                        delimiter: ','
+                          importer : Miso.Dataset.Importers.GoogleSpreadsheet,
+                          parser : Miso.Dataset.Parsers.GoogleSpreadsheet,
+                          key : data_path,
+                          worksheet : "1"
                     });
 
                     ds.fetch({
@@ -490,8 +496,10 @@
                     };
 
                     var ds = new Miso.Dataset({
-                        url : data_path,
-                        delimiter: ','
+                          importer : Miso.Dataset.Importers.GoogleSpreadsheet,
+                          parser : Miso.Dataset.Parsers.GoogleSpreadsheet,
+                          key : data_path,
+                          worksheet : "1"
                     });
 
                     ds.fetch({
