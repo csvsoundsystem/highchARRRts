@@ -1,6 +1,6 @@
 ![highChaRRRts](./imgs/pirate-arr.png)
 
-## generate interactive plots in AAAARRRRRRRR#
+## generate interactive plots in AAAARRRRRRRR
 
 
 _[by csv soundsystem](http://www.csv.nyc/)_
