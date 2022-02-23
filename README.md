@@ -1,16 +1,19 @@
-<center>![highChaRRRts](imgs/pirate-arr.png)</center>
-##generate interactive plots in AAAARRRRRRRR#
-============
-_[by csv soundsystem](http://www.csvsoundsystem.com/)_
+![highChaRRRts](./imgs/pirate-arr.png)
+
+## generate interactive plots in AAAARRRRRRRR#
+
+
+_[by csv soundsystem](http://www.csv.nyc/)_
 
 An R package to create interactive HighCharts in JavaScript from a dataframe. You'll want to use dcast in the reshape2 package to format it nicely. [More on that](http://www.cookbook-r.com/Manipulating_data/Converting_data_between_wide_and_long_format/)
 
 <p>Currently supported chart types: bar, line, area, column.<p>
 <p>Chart types to come: datetime x-axis (coming soon), scatterplot and others</p>
 <p><strong>Terms of service note: This library uses the HighCharts.js library. Which, in addition to being awesome, has some particular terms of use if you are a for-profit venture. Before using it on your site, we suggest <a href="http://shop.highsoft.com/highcharts.html" target="_blank">you make sure you are squared with their terms</a>.</strong></p>
+
 ## Install the package
 
-```
+```r
 library("devtools")
 install_github("highChaRRRts", "csvsoundsystem")
 library("highChaRRRts")
@@ -19,14 +22,17 @@ library("highChaRRRts")
 ## What data structure does it need?
 
 There are two general data formats when dealing with dataframes and we'll use the terminology "long" and "wide". For reference, read [the R Cookbook explanation](http://www.cookbook-r.com/Manipulating_data/Converting_data_between_wide_and_long_format/) on the difference between the two. Generally, a long format is one where each row contains all the information for a given record so you can append records one at a time. 
-```
+
+```csv
 name,variable,value
 John,apples,2
 John,oranges,3
 Jane,pears,1
 ```
+
 A wide format is one that is column dependent
-```
+
+```csv
 name,apples,oranges,pears
 John,2,3,0
 Jane,0,01
@@ -43,27 +49,29 @@ For everything else, long format is what you'll want, which is great because you
 highchARRRts has the following required parameters
 ...
 
-```
+```js
 highchaRRRts(dcasted_df, type, main, xlab, ylab, output, pal)
 
 ```
 
 <p>Then in your console, cd to the directory it just created, default name "chart_output". Then create a simple web server such as</p>
-```
+
+```bash
 python -m SimpleHTTPServer
 ```
+
 <p>Then point your browser to 0.0.0.0:8000</p>
 
 
 ## So...
 
-```
+```js
 highChaRRRts(dcasted_df, type="line", main="Title of the Chart", xlab="X Label", ylab="Y Label, output="chart_output", pal="RdYlBu")
 ```
 
 ## And a colorful example...
 
-```
+```r
 library("devtools")
 install_github("highChaRRRts", "csvsoundsystem")
 library("highChaRRRts")
@@ -88,6 +96,7 @@ highChaRRRts(df,
 Check out the charts [here](http://csvsoundsystem.github.com/highchARRRts/example_templates/rainbow-bar-chart-column-line.html)
 
 ## Questions?
+
 Ask the developers / maintainers:
 - [@brianabelson](http://www.twitter.com/brianabelson)
 - [@mhkeller](http://www.twitter.com/mhkeller)
